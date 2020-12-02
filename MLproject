@@ -1,0 +1,18 @@
+name: RandomForest
+
+conda_env: environment.yml
+
+entry_points:
+  main:
+    parameters:
+      train_test_split_size: {type: float, default: 0.3}
+      random_state: {type: int, default: 1}
+      max_depth: {type: int, default: 8}
+      criterion: {type: str, default: 'gini'}
+      min_impurity_decrease: {type: float, default: 0.0}
+      min_samples_leaf: {type: int, default: 4}
+      min_samples_split: {type: int, default: 10}
+      min_weight_fraction_leaf: {type: float, default: 0.0}
+      n_estimators: {type: int, default: 6}
+
+    command: "python RF_train.py --split-size {train_test_split_size} --random-state {random_state} --max-depth {max_depth} --criterion {criterion} --min-impurity-decrease {min_impurity_decrease} --min-samples-leaf {min_samples_leaf}  --min-weight-fraction-leaf {min_weight_fraction_leaf}  --n-estimators {n_estimators}"
