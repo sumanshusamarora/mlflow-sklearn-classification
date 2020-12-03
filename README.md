@@ -25,6 +25,8 @@ The repo contains code to train and serve following three classification models 
 
 *Note that user can run any of the three models with different parameters as explained below in Paramaters section by passing the parameter value after the command*
 Examples - 
+* To train XGBoost model with all default values as in the original code, simply run ```python train.py --model-type XGB```
+* To train Logistic Regression model with all default values as in the original code, simply run ```python train.py --model-type LR```
 * To run a Random Forest experiment with a max depth value of 10 (max_depth default value is 8 for Random Forest), just run command '''python train.py --max-depth 10'''
 * To run a XGBoost experiment with a max depth value of 4 (max_depth default value is 1 for XGBoost), just run command '''python train.py --model-type XGB --max-depth 10'''
 
@@ -93,8 +95,11 @@ response_json = json.loads(response.text)
 print(response_json)
 ```
 
+*Same code is available in repository as well. Please see file named as *
+
 
 ## Parameters
+
 
 ## To run experiment directly from github
 It is required to have data available to code for running experiments dorectly from github. So data should either be coming from cloud or if its a physical file not in cloud it should be available in code repository which is not the case as yet keeping data security in mind. But if you user wishes to run experiments directly from git then they can choose to add the file final.csv in data folder. Once that's done, please follow the below process -
