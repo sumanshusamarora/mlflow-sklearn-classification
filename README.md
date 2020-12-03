@@ -1,3 +1,10 @@
+# MLFlow Model Serving for XGBoost and Scikit-learn models
+The repo contains code to train and serve following three classification models trained on same data via MLFlow. The trained models are then saved under their respective experiement locations which can be viewed via the MLFlow GUI. The admin can choose one or models they want to serve for inference.
+
+1) Random Forest (RF)
+2) XGBoost (XGB)
+3) Logistic Regression (LR)
+
 Copy data file names final.csv to data folder
 
 mlflow server --backend-store-uri file:///home/arora/work/mlflow-sklearn-classification/mlruns/ --default-artifact-root file:///home/arora/work/mlflow-sklearn-classification/mlruns --host 0.0.0.0 --port 5000
