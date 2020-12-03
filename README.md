@@ -31,8 +31,8 @@ Steps to run this on you local machine are as follows:
 Examples - 
 * To train XGBoost model with all default values as in the original code, simply run ```python train.py --model-type XGB```
 * To train Logistic Regression model with all default values as in the original code, simply run ```python train.py --model-type LR```
-* To run a Random Forest experiment with a max depth value of 10 (max_depth default value is 8 for Random Forest), just run command '''python train.py --max-depth 10'''
-* To run a XGBoost experiment with a max depth value of 4 (max_depth default value is 1 for XGBoost), just run command '''python train.py --model-type XGB --max-depth 10'''
+* To run a Random Forest experiment with a max depth value of 10 (max_depth default value is 8 for Random Forest), just run command ```python train.py --max-depth 10```
+* To run a XGBoost experiment with a max depth value of 4 (max_depth default value is 1 for XGBoost), just run command ```python train.py --model-type XGB --max-depth 10```
 
 
 ### Spin-up MLFlow GUI
