@@ -99,7 +99,9 @@ print(response_json)
 
 
 ## Parameters
+There are many parameters that we can experiment our models with. Below screenshot shows complete list of parameters, their default values and allowed values
 
+![alt text](images/param-table.PNG)
 
 ## To run experiment directly from github
 It is required to have data available to code for running experiments dorectly from github. So data should either be coming from cloud or if its a physical file not in cloud it should be available in code repository which is not the case as yet keeping data security in mind. But if you user wishes to run experiments directly from git then they can choose to add the file final.csv in data folder. Once that's done, please follow the below process -
@@ -108,4 +110,4 @@ It is required to have data available to code for running experiments dorectly f
 2) Ensure you have mlflow installed in your active conda environment. If not, run command ```conda install -c conda-forge mlflow```
 3) Ensure you have access to internet
 4) Run command ```mlflow run https://github.com/sumanshusamarora/mlflow-sklearn-classification.git -P model_type='RF' train_test_split_size=0.33'''
-*User can pass any training parameters after the -P variable in the above command*
+*User can pass any training parameters after the -P variable in the above command. The parameters are pretty much same as mentioned in Parameter section but the name may be slighly different. Refer file MLproject in the repository to see all names that can be passed as parameters*
