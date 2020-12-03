@@ -37,7 +37,9 @@ Examples -
 
 ### Spin-up MLFlow GUI
 1) Run command ```bash script.sh spinupgui <path-to-mlruns-directory-in-repository> 5000```
+
                                               OR
+
 1) Run command ```mlflow server --backend-store-uri file://</full-path-to-mlruns-directory> --default-artifact-root file://</full-path-to-mlruns-directory> --host 0.0.0.0 --port 5000```
 
 2) Open a browser and type 127.0.0.1:5000
