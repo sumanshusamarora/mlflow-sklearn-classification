@@ -1,5 +1,5 @@
 # MLFlow Model Serving for XGBoost and Scikit-learn models
-The repo contains code to train and serve following three classification models trained on same data via MLFlow. The trained models are then saved under their respective experiment locations which can be viewed via the MLFlow GUI. The admin can choose one or models they want to serve for inference.
+The repo contains code to train and serve following three classification models trained on same data via MLFlow. The trained models are then saved under their respective experiment locations which can be viewed via the MLFlow GUI. The admin can choose one or more models they want to serve for inference.
 
 1) Random Forest (RF)
 2) XGBoost (XGB)
@@ -11,9 +11,9 @@ The repo contains code to train and serve following three classification models 
 #### Setup
 1) Clone this repo to the local machine
 2) cd into the cloned directory
-3) Copy the data csv file named as "final.csv" in to the data folder
-4) Ensure you have got conda installed in the machine. If not, install from offcial [Anaconda](https://docs.anaconda.com/anaconda/install/) site
-5) Run command ```conda init``` followed by ```source ~/.bashrc```
+3) Ensure you have got conda installed in the machine. If not, install from official [Anaconda](https://docs.anaconda.com/anaconda/install/) site
+4) Run command ```conda init``` followed by ```source ~/.bashrc```
+5) Copy the data csv file named as "final.csv" in to the data folder
 
 
 ### Create anaconda environment
@@ -22,6 +22,14 @@ The repo contains code to train and serve following three classification models 
 ### Spin-up MLFlow GUI
 1) Run command ```mlflow server --backend-store-uri file://</full-path-to-mlruns-directory> --default-artifact-root file://</full-path-to-mlruns-directory> --host 0.0.0.0 --port 5000```
 2) Open a browser and type 127.0.0.1:5000
+
+### Training models and running experiments
+1) To run a Random Forest experiment with default parameters, simply run command ```python train.py```
+
+*Note that user can run any of the three models with different parameters as explained below in Paramaters section by passing the parameter value after the command*
+Examples - 
+* To run a Random Forest experiment with a max depth value of 10 (max_depth default value is 8 for Random Forest), just run command '''python train.py --max-depth 10'''
+* To run a XGBoost experiment with a max depth value of 4 (max_depth default value is 1 for XGBoost), just run command '''python train.py --model-type XGB --max-depth 10'''
 
 ### View and compare models
 1) At this point user should be able to see all experiments that exist in the repo already and also any new experiments that you will run in your local machine in the MLflow GUI
@@ -46,7 +54,7 @@ The repo contains code to train and serve following three classification models 
 ![alt text](images/model-path.PNG)
 
 6) There are chances that it might not show the full path of the artifact so user may have to prepend the current working directory so it becomes full path and also remove the file name at the end as we only need to input the directory path
-7) Run command ```mlflow models serve -m "<full-path-to-artifact-directory-copied-in-above-step>" -h 0.0.0.0 -p 2125``` to serve the model
+7) Run command ```mlflow models serve -m "<full-path-to-artifact-directory-copied-in-above-step>" -h 0.0.0.0 -p 2125 --no-conda``` to serve the model
 
 *Please note that it is not neccessary to use port 2125 but use could choose to use a different port too*
 
@@ -82,15 +90,13 @@ print(response_json)
 ```
 
 
+## Parameters
 
-### Create experiments
+##### To run experiment directly from github
+It is required to have data available to code for running experiments dorectly from github. So data should either be coming from cloud or if its a physical file not in cloud it should be available in code repository which is not the case as yet keeping data security in mind. But if you user wishes to run experiments directly from git then they can choose to add the file final.csv in data folder. Once that's done, please follow the below process -
 
-
-
-
-##### To run directly from github
-```mlflow run https://github.com/mlflow/mlflow-example.git -P train_test_split_size=0.33 random_state=2```
-where all parameters can be passed after -P
-
-
-mlflow models serve -m "/home/arora/work/mlflow-sklearn-classification/mlruns/0/d76ff64363f2492b8788bd46f4dc7a13/artifacts/random_forest_model" -h 0.0.0.0 -p 2125
+1) Ensure you have got conda installed in the machine. If not, install from official [Anaconda](https://docs.anaconda.com/anaconda/install/) site
+2) Ensure you have mlflow installed in your active conda environment. If not, run command ```conda install -c conda-forge mlflow```
+3) Ensure you have access to internet
+4) Run command ```mlflow run https://github.com/sumanshusamarora/mlflow-sklearn-classification.git -P model_type='RF' train_test_split_size=0.33'''
+*User can pass any training parameters after the -P variable in the above command*
