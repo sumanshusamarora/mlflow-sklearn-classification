@@ -1,9 +1,24 @@
 # MLFlow Model Serving for XGBoost and Scikit-learn models
-The repo contains code to train and serve following three classification models trained on same data via MLFlow. The trained models are then saved under their respective experiement locations which can be viewed via the MLFlow GUI. The admin can choose one or models they want to serve for inference.
+The repo contains code to train and serve following three classification models trained on same data via MLFlow. The trained models are then saved under their respective experiment locations which can be viewed via the MLFlow GUI. The admin can choose one or models they want to serve for inference.
 
 1) Random Forest (RF)
 2) XGBoost (XGB)
 3) Logistic Regression (LR)
+
+
+## Steps to run this on a local machine (tested on Ubuntu 18.04)
+
+#### Setup
+1) Clone this repo to the local machine
+2) cd into the cloned directory
+3) Copy the data csv file named as "final.csv" in to the data folder
+4) Ensure you have got conda installed in the machine. If not, install from offcial [Anaconda](https://docs.anaconda.com/anaconda/install/) site
+5) Run command ```conda init``` followed by ```source ~/.bashrc```
+
+
+### Create environment
+1) 
+
 
 Copy data file names final.csv to data folder
 
