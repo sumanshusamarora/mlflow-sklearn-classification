@@ -7,16 +7,19 @@ The repo contains code to train and serve following three classification models 
 
 
 ## Steps to run this on a local machine (tested on Ubuntu 18.04)
+Steps to run this on you local machine are as follows:
 
 #### Setup
 1) Clone this repo to the local machine
 2) cd into the cloned directory
-3) Ensure you have got conda installed in the machine. If not, install from official [Anaconda](https://docs.anaconda.com/anaconda/install/) site
-4) Run command ```source ~/.bashrc``` followed by ```conda init```
-5) Copy the data csv file named as "final.csv" in to the data folder
+3) Copy the data csv file named as "final.csv" in to the data folder
+4) Run command ```bash script.sh setmeup```
+5) If above command gave any error, please run step 6 & 7 and also the next step i.e. 'Create & activate anaconda environment' else skip them
+6) Ensure you have got conda installed in the machine. If not, install from official [Anaconda](https://docs.anaconda.com/anaconda/install/) site
+7) Run command ```source ~/.bashrc``` followed by ```conda init```
 
 
-### Create & activate anaconda environment
+### Create & activate anaconda environment (*Skip if you have already run the autmation script)
 1) Run command ```conda env create -f environment.yml```
 2) Run command ```conda activate mlflow-sklearn```
 
@@ -33,7 +36,10 @@ Examples -
 
 
 ### Spin-up MLFlow GUI
+1) Run command ```bash script.sh spinupgui <path-to-mlruns-directory-in-repository> 5000```
+                                              OR
 1) Run command ```mlflow server --backend-store-uri file://</full-path-to-mlruns-directory> --default-artifact-root file://</full-path-to-mlruns-directory> --host 0.0.0.0 --port 5000```
+
 2) Open a browser and type 127.0.0.1:5000
 
 
