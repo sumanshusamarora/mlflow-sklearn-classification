@@ -19,9 +19,6 @@ The repo contains code to train and serve following three classification models 
 ### Create anaconda environment
 1) Run command ```conda env create -f environment.yml```
 
-### Spin-up MLFlow GUI
-1) Run command ```mlflow server --backend-store-uri file://</full-path-to-mlruns-directory> --default-artifact-root file://</full-path-to-mlruns-directory> --host 0.0.0.0 --port 5000```
-2) Open a browser and type 127.0.0.1:5000
 
 ### Training models and running experiments
 1) To run a Random Forest experiment with default parameters, simply run command ```python train.py```
@@ -31,12 +28,19 @@ Examples -
 * To run a Random Forest experiment with a max depth value of 10 (max_depth default value is 8 for Random Forest), just run command '''python train.py --max-depth 10'''
 * To run a XGBoost experiment with a max depth value of 4 (max_depth default value is 1 for XGBoost), just run command '''python train.py --model-type XGB --max-depth 10'''
 
+
+### Spin-up MLFlow GUI
+1) Run command ```mlflow server --backend-store-uri file://</full-path-to-mlruns-directory> --default-artifact-root file://</full-path-to-mlruns-directory> --host 0.0.0.0 --port 5000```
+2) Open a browser and type 127.0.0.1:5000
+
+
 ### View and compare models
 1) At this point user should be able to see all experiments that exist in the repo already and also any new experiments that you will run in your local machine in the MLflow GUI
 
 ![alt text](images/MLFLOW-Server.PNG)
 
 2) Users can compare models based in evaluation metrices results and decide which model(s) they want to deploy
+
 
 ### Serving model(s)
 1) To be able to serve model(s), user needs to know the artifact & model path of it. To view this, open a model in the MLFlow GUI as shown in screenshot below
@@ -92,7 +96,7 @@ print(response_json)
 
 ## Parameters
 
-##### To run experiment directly from github
+## To run experiment directly from github
 It is required to have data available to code for running experiments dorectly from github. So data should either be coming from cloud or if its a physical file not in cloud it should be available in code repository which is not the case as yet keeping data security in mind. But if you user wishes to run experiments directly from git then they can choose to add the file final.csv in data folder. Once that's done, please follow the below process -
 
 1) Ensure you have got conda installed in the machine. If not, install from official [Anaconda](https://docs.anaconda.com/anaconda/install/) site
