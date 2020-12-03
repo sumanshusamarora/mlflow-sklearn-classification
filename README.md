@@ -12,7 +12,7 @@ The repo contains code to train and serve following three classification models 
 1) Clone this repo to the local machine
 2) cd into the cloned directory
 3) Ensure you have got conda installed in the machine. If not, install from official [Anaconda](https://docs.anaconda.com/anaconda/install/) site
-4) Run command ```conda init``` followed by ```source ~/.bashrc```
+4) Run command ```source ~/.bashrc``` followed by ```conda init```
 5) Copy the data csv file named as "final.csv" in to the data folder
 
 
