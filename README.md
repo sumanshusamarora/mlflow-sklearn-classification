@@ -16,8 +16,18 @@ The repo contains code to train and serve following three classification models 
 5) Run command ```conda init``` followed by ```source ~/.bashrc```
 
 
-### Create environment
-1) 
+### Create anaconda environment
+1) Run command ```conda env create -f environment.yml```
+
+### Spin-up MLFlow GUI
+1) Run command ```mlflow server --backend-store-uri file://</full-path-to-mlruns-directory> --default-artifact-root file://</full-path-to-mlruns-directory> --host 0.0.0.0 --port 5000```
+2) Open a browser and type 127.0.0.1:5000
+3) At this point you should be able to see all experiments that exist in the repo already and also any new experiments that you will run in your local machine
+
+
+
+### Create experiments
+
 
 
 Copy data file names final.csv to data folder
