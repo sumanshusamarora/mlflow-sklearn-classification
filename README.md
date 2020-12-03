@@ -22,24 +22,69 @@ The repo contains code to train and serve following three classification models 
 ### Spin-up MLFlow GUI
 1) Run command ```mlflow server --backend-store-uri file://</full-path-to-mlruns-directory> --default-artifact-root file://</full-path-to-mlruns-directory> --host 0.0.0.0 --port 5000```
 2) Open a browser and type 127.0.0.1:5000
-3) At this point you should be able to see all experiments that exist in the repo already and also any new experiments that you will run in your local machine
+
+### View and compare models
+1) At this point user should be able to see all experiments that exist in the repo already and also any new experiments that you will run in your local machine in the MLflow GUI
 
 ![alt text](images/MLFLOW-Server.PNG)
 
-4) Admins users can view on all expeiment and decide which (one or more) model(s) to deploy based on evaluation metrices comparison
+2) Users can compare models based in evaluation metrices results and decide which model(s) they want to deploy
 
-### Serve/deploy model
-1) Once user decides to serve a model for inference, they need to click on that model as shown below and get the full path of the model directory.
+### Serving model(s)
+1) To be able to serve model(s), user needs to know the artifact & model path of it. To view this, open a model in the MLFlow GUI as shown in screenshot below
+
+![alt text](images/open-model.PNG)
+
+2) Once you have the model opened, it should look something like below screenshot
+
+![alt text](images/model_opened.PNG)
+
+3) To get the address of artifact and model, scroll down to the section called Artifacts
+4) Expand the Experiment Name link on left (see screenshow below)
+5) Copy the model path as highlighed in yellow in the below screenshot
+
+![alt text](images/model-path.PNG)
+
+6) There are chances that it might not show the full path of the artifact so user may have to prepend the current working directory so it becomes full path and also remove the file name at the end as we only need to input the directory path
+7) Run command ```mlflow models serve -m "<full-path-to-artifact-directory-copied-in-above-step>" -h 0.0.0.0 -p 2125``` to serve the model
+
+*Please note that it is not neccessary to use port 2125 but use could choose to use a different port too*
+
+8) If user wishes to deploy more than one model, the same command as in step no. 6 can be used with new model artifact and a different port number
+
+
+### Inference
+1) Once a model is deployed, it is already being served at a REST endpoint . In this instance at, https://127.0.0.1:2125
+2) To get predictions, one needs to send POST request on the endpoint
+3) Below is an example of REST call using python
+
+```
+import pandas as pd
+import requests
+import json
+dataset = pd.read_csv('data/final.csv')
+dataset = dataset.iloc[:, dataset.columns != 'v6392']
+data = dataset.sample(1)
+
+
+all_cols = list(data.columns)
+all_vals = data.values.tolist()
+
+input_data = {"columns":all_cols,
+              "data":all_vals}
+
+response = requests.post(url='http://127.0.0.1:2125/invocations',
+                         data=json.dumps(input_data),
+                         headers={"Content-type": "application/json"}
+                         )
+response_json = json.loads(response.text)
+print(response_json)
+```
 
 
 
 ### Create experiments
 
-
-
-Copy data file names final.csv to data folder
-
-mlflow server --backend-store-uri file:///home/arora/work/mlflow-sklearn-classification/mlruns/ --default-artifact-root file:///home/arora/work/mlflow-sklearn-classification/mlruns --host 0.0.0.0 --port 5000
 
 
 
