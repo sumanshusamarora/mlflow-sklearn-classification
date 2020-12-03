@@ -109,6 +109,6 @@ It is required to have data available to code for running experiments dorectly f
 1) Ensure you have got conda installed in the machine. If not, install from official [Anaconda](https://docs.anaconda.com/anaconda/install/) site
 2) Ensure you have mlflow installed in your active conda environment. If not, run command ```conda install -c conda-forge mlflow```
 3) Ensure you have access to internet
-4) Run command ```mlflow run https://github.com/sumanshusamarora/mlflow-sklearn-classification.git -P model_type='RF' train_test_split_size=0.33'''
+4) Run command ```mlflow run https://github.com/sumanshusamarora/mlflow-sklearn-classification.git -P model_type='RF' train_test_split_size=0.33```
 
 *User can pass any training parameters after the -P variable in the above command. The parameters are pretty much same as mentioned in Parameter section but the name may be slighly different. Refer the parameter section in [this](./MLproject) in the repository to see all names that can be passed as parameters*
