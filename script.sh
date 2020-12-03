@@ -86,7 +86,7 @@ case $CMD in
   setmeup)
     install_conda
     conda_init
-    download_code
+    #download_code
     create_mlflow_environment
     ;;
 
