@@ -16,8 +16,9 @@ The repo contains code to train and serve following three classification models 
 5) Copy the data csv file named as "final.csv" in to the data folder
 
 
-### Create anaconda environment
+### Create & activate anaconda environment
 1) Run command ```conda env create -f environment.yml```
+2) Run command ```conda activate mlflow-sklearn```
 
 
 ### Training models and running experiments
