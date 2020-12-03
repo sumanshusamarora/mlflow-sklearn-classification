@@ -9,7 +9,7 @@ The repo contains code to train and serve following three classification models 
 ## Steps to run this on a local machine (tested on Ubuntu 18.04)
 Steps to run this on you local machine are as follows:
 
-#### Setup (*Skip if you have already run the autmation script)
+#### Setup
 1) Clone this repo to the local machine
 2) cd into the cloned directory
 3) Copy the data csv file named as "final.csv" in to the data folder
