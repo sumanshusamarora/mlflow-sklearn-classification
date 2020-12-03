@@ -26,6 +26,11 @@ The repo contains code to train and serve following three classification models 
 
 ![alt text](images/MLFLOW-Server.PNG)
 
+4) Admins users can view on all expeiment and decide which (one or more) model(s) to deploy based on evaluation metrices comparison
+
+### Serve/deploy model
+1) Once user decides to serve a model for inference, they need to click on that model as shown below and get the full path of the model directory.
+
 
 
 ### Create experiments
