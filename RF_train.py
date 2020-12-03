@@ -5,10 +5,13 @@ import os
 import argparse
 import pandas as pd
 from urllib.parse import urlparse
+import xgboost as xgb
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score,roc_auc_score, precision_score, recall_score
 import mlflow.sklearn
+import mlflow.xgboost
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -31,7 +34,7 @@ try:
     data = data.drop(['v4920'], axis=1)
     data = data.drop(['v0105'], axis=1)
 except KeyError:
-    logger.warning("Some or all columns to be dropped do not exist")
+    logger.info("Some or all columns to be dropped do not exist")
 
 
 # Set features and target variables
@@ -68,27 +71,53 @@ if __name__ == "__main__":
 
     # MLFLOW parameters setting
     mlflow.set_tracking_uri(f"file:{mlflow_tracking_dir}")
-    exp_name = "RandomForestClassification"
-    mlflow.set_experiment(exp_name)
 
     parser = argparse.ArgumentParser(description='Get Input Values')
+
+    #Model type
+    parser.add_argument('--model-type', dest="model_type", default='RF', type=str,
+                        help='Choose between RF, LR, XGB, defaults to RF')
 
     #Parameter setting
     parser.add_argument('--split-size', dest="train_test_split_size", default=0.3, type=float, help='Test Train Split Size')
     parser.add_argument('--random-state', dest="random_state", default=1, type=int, help='Random State')
 
     # Model hyperparameters setting
-    parser.add_argument('--max-depth', dest="max_depth", default=8, type=int)
+    parser.add_argument('--max-depth', dest="max_depth", default=0, type=int)
     parser.add_argument('--criterion', dest="criterion", default='gini', type=str)
     parser.add_argument('--min-impurity-decrease', dest="min_impurity_decrease", default=0.0, type=float)
     parser.add_argument('--min-samples-leaf', dest="min_samples_leaf", default=4, type=int)
     parser.add_argument('--min-samples-split', dest="min_samples_split", default=10, type=int)
     parser.add_argument('--min-weight-fraction-leaf', dest="min_weight_fraction_leaf", default=0.0, type=float)
-    parser.add_argument('--n-estimators', dest="n_estimators", default=6, type=int)
+    parser.add_argument('--n-estimators', dest="n_estimators", default=0, type=int)
     parser.add_argument('--oob-score', dest="oob_score", default=False, type=bool)
+    parser.add_argument('--learning-rate', dest="learning_rate", default=0.001, type=float)
 
 
     args = parser.parse_args()
+
+    if args.model_type.upper() == "XGB":
+        if args.max_depth == 0:
+            args.max_depth = 1
+            exp_name = "XGBoostClassifier"
+        if args.n_estimators == 0:
+            args.n_estimators = 100
+    elif args.model_type.upper() == "RF":
+        if args.max_depth == 0:
+            args.max_depth = 8
+        if args.n_estimators == 0:
+            args.n_estimators = 6
+            exp_name = "RandomForestClassifier"
+    elif args.model_type.upper() == "LR":
+        if args.max_depth == 0:
+            args.max_depth = 8
+        if args.n_estimators == 0:
+            args.n_estimators = 6
+            exp_name = "LogisticRegressionClassifier"
+    else:
+        raise ValueError(f"{args.model_type} is not a valid model type value")
+
+    mlflow.set_experiment(exp_name)
 
     #Test Train Split
     x_train, x_test, y_train, y_test = split_test_data(args.train_test_split_size, args.random_state)
@@ -96,26 +125,66 @@ if __name__ == "__main__":
     #Class Weight calc
     class_weight = dict({0: 1, 1: len(y_train[y_train.v6392 == 0]) / len(y_train[y_train.v6392 == 1])})
 
+
+
+
     # Model Training
     with mlflow.start_run():
         # Model definition
-        RF = RandomForestClassifier(bootstrap=True,
-                                    class_weight=class_weight,
-                                    criterion=args.criterion,
-                                    max_depth=args.max_depth, max_features='auto', max_leaf_nodes=None,
-                                    min_impurity_decrease=args.min_impurity_decrease, min_impurity_split=None,
-                                    min_samples_leaf=args.min_samples_leaf, min_samples_split=args.min_samples_split,
-                                    min_weight_fraction_leaf=args.min_weight_fraction_leaf, n_estimators=args.n_estimators,
-                                    oob_score=args.oob_score,
-                                    random_state=args.random_state,
-                                    verbose=0, warm_start=False)
+        mlflow.log_param("model_type", args.model_type)
+        mlflow.log_param("test_size", args.train_test_split_size)
+        mlflow.log_param('random_state', args.random_state)
+
+        if args.model_type.upper() == 'RF':
+            _model_name = 'RandomForest'
+            model = RandomForestClassifier(bootstrap=True,
+                                        class_weight=class_weight,
+                                        criterion=args.criterion,
+                                        max_depth=args.max_depth, max_features='auto', max_leaf_nodes=None,
+                                        min_impurity_decrease=args.min_impurity_decrease, min_impurity_split=None,
+                                        min_samples_leaf=args.min_samples_leaf, min_samples_split=args.min_samples_split,
+                                        min_weight_fraction_leaf=args.min_weight_fraction_leaf, n_estimators=args.n_estimators,
+                                        oob_score=args.oob_score,
+                                        random_state=args.random_state,
+                                        verbose=0, warm_start=False)
+
+            # logging model parameters
+            mlflow.log_param('max_depth', args.max_depth)
+            mlflow.log_param('criterion', args.criterion)
+            mlflow.log_param('min_impurity_decrease', args.min_impurity_decrease)
+            mlflow.log_param('min_samples_leaf', args.min_samples_leaf)
+            mlflow.log_param('min_samples_split', args.min_samples_split)
+            mlflow.log_param('min_weight_fraction_leaf', args.min_weight_fraction_leaf)
+            mlflow.log_param('n_estimators', args.n_estimators)
+            mlflow.log_param('oob_score', args.oob_score)
+
+        elif args.model_type.upper() == 'LR':
+            _model_name = 'LogisticRegression'
+            model = LogisticRegression()
+
+        elif args.model_type.upper() == 'XGB':
+            _model_name = 'XGBoost'
+            scale_pos_weight = len(y_train[y_train.v6392 == 0]) / len(y_train[y_train.v6392 == 1])
+            model = xgb.XGBClassifier(learning_rate=args.learning_rate,
+                                      max_depth=args.max_depth,
+                                      n_estimators=args.n_estimators,
+                                      scale_pos_weight=scale_pos_weight)
+
+            mlflow.log_param('learning_rate', args.learning_rate)
+            mlflow.log_param('max_depth', args.max_depth)
+            mlflow.log_param('n_estimators', args.n_estimators)
+
+        else:
+            raise ValueError(f"{args.model_type} is not a valid model type value")
+
         # Model fitting
-        RF.fit(x_train, y_train)
+        model.fit(x_train, y_train)
+
 
         #Model inference
-        y_pred_score = RF.predict_proba(x_test)  # Predicting probability
+        y_pred_score = model.predict_proba(x_test)  # Predicting probability
         y_pred_score = pd.DataFrame(y_pred_score[:, 1])
-        y_pred = RF.predict(x_test)
+        y_pred = model.predict(x_test)
 
         #Model evaluation
         acc, precision, recall, roc_auc = evaluate_model(y_test, y_pred, y_pred_score)
@@ -126,23 +195,10 @@ if __name__ == "__main__":
         mlflow.log_metric("recall", recall)
         mlflow.log_metric("roc_auc", roc_auc)
 
-        #logging model parameters
-        mlflow.log_param("test_size", args.train_test_split_size)
-        mlflow.log_param('random_state', args.random_state)
-        mlflow.log_param('max_depth', args.max_depth)
-        mlflow.log_param('criterion', args.criterion)
-        mlflow.log_param('min_impurity_decrease', args.min_impurity_decrease)
-        mlflow.log_param('min_samples_leaf', args.min_samples_leaf)
-        mlflow.log_param('min_samples_split', args.min_samples_split)
-        mlflow.log_param('min_weight_fraction_leaf', args.min_weight_fraction_leaf)
-        mlflow.log_param('n_estimators', args.n_estimators)
-        mlflow.log_param('oob_score', args.oob_score)
-        mlflow.sklearn.log_model(RF, "random_forest_model")
-
         #Logging model
         tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme
         # Model registry does not work with file store
         if tracking_url_type_store != "file":
-            mlflow.sklearn.log_model(RF, "random_forest_model", registered_model_name="RandomForestModel")
+            mlflow.sklearn.log_model(model, _model_name, registered_model_name=_model_name)
         else:
-            mlflow.sklearn.log_model(RF, "random_forest_model")
+            mlflow.sklearn.log_model(model, _model_name)

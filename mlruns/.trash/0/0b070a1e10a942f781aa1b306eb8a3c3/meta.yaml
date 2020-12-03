@@ -1,0 +1,15 @@
+artifact_uri: file:mlruns/0/0b070a1e10a942f781aa1b306eb8a3c3/artifacts
+end_time: 1606947338168
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: deleted
+name: ''
+run_id: 0b070a1e10a942f781aa1b306eb8a3c3
+run_uuid: 0b070a1e10a942f781aa1b306eb8a3c3
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1606947336271
+status: 4
+tags: []
+user_id: arora

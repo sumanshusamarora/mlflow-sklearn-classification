@@ -1,0 +1,15 @@
+artifact_uri: file:mlruns/0/7a24f37126d54be492b9602a51e891a0/artifacts
+end_time: 1606873398225
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: deleted
+name: ''
+run_id: 7a24f37126d54be492b9602a51e891a0
+run_uuid: 7a24f37126d54be492b9602a51e891a0
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1606873394152
+status: 4
+tags: []
+user_id: suman
