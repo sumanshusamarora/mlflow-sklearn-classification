@@ -83,6 +83,11 @@ spin_up_gui(){
 }
 
 case $CMD in
+
+  getcode)
+    download_code
+    ;;
+
   setmeup)
     install_conda
     conda_init
@@ -96,14 +101,14 @@ case $CMD in
 
   --help)
     echo ""
-    echo "Usage bash script.sh <setmeup|spinupgui|--help>"
+    echo "Usage bash script.sh <getcode|setmeup|spinupgui|--help>"
     echo ""
     exit 2
     ;;
 
   *)
     echo ""
-    echo "Usage bash script.sh <setmeup|spinupgui|--help>"
+    echo "Usage bash script.sh <getcode|setmeup|spinupgui|--help>"
     echo ""
     exit 2
 esac
