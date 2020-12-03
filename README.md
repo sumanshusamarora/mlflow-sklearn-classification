@@ -73,7 +73,7 @@ Run any one of the step 1 or 2 and then step 3
 6) There are chances that it might not show the full path of the artifact so user may have to prepend the current working directory so it becomes full path and also remove the file name at the end as we only need to input the directory path
 7) Run command ```mlflow models serve -m "<full-path-to-artifact-directory-copied-in-above-step>" -h 0.0.0.0 -p 2125 --no-conda``` to serve the model
 
-*Please note that it is not neccessary to use port 2125 but use could choose to use a different port too*
+* Please note that it is not neccessary to use port 2125 but use could choose to use a different port too *
 
 8) If user wishes to deploy more than one model, the same command as in step no. 6 can be used with new model artifact and a different port number
 
@@ -106,7 +106,7 @@ response_json = json.loads(response.text)
 print(response_json)
 ```
 
-*Same code is available in repository as well. Please see file named as *
+* Same code is available in repository as well. Please see ![this](./model_inference.py) file *
 
 
 ## Parameters
