@@ -58,6 +58,7 @@ download_code(){
 
 create_mlflow_environment(){
   conda env create -f environment.yml
+  source ~/anaconda3/etc/profile.d/conda.sh
   conda activate mlflow-sklearn
 }
 
@@ -95,20 +96,24 @@ case $CMD in
     create_mlflow_environment
     ;;
 
+  createenv)
+    create_mlflow_environment
+    ;;
+
   spinupgui)
     spin_up_gui
     ;;
 
   --help)
     echo ""
-    echo "Usage bash script.sh <getcode|setmeup|spinupgui|--help>"
+    echo "Usage bash script.sh <getcode|setmeup|spinupgui|createenv--help>"
     echo ""
     exit 2
     ;;
 
   *)
     echo ""
-    echo "Usage bash script.sh <getcode|setmeup|spinupgui|--help>"
+    echo "Usage bash script.sh <getcode|setmeup|spinupgui|createenv--help>"
     echo ""
     exit 2
 esac
