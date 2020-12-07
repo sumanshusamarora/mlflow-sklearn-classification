@@ -44,8 +44,11 @@ conda_init(){
 
   echo "Sourcing .bashrc"
   source ~/.bashrc
-  conda init
+ 
+  else
+    source ~/anaconda3/etc/profile.d/conda.sh
   fi
+  conda init
 }
 
 download_code(){
